@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Routing\Router;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -60,13 +64,22 @@ class Handler extends ExceptionHandler
             $this->code = $exception->code;
             $this->msg = $exception->msg;
             $this->errorCode = $exception->errorCode;
-        } elseif ($exception instanceof NotFoundHttpException) {
-            $this->code = 404;
-            $this->msg = '资源查询不到';
-            $this->errorCode = 404;
         } else {
             if (config('app.debug')) {
-                return parent::render($request, $exception);
+                if (method_exists($exception, 'render') && $response = $exception->render($request)) {
+                    return Router::toResponse($request, $response);
+                } elseif ($exception instanceof Responsable) {
+                    return $exception->toResponse($request);
+                }
+                $exception = $this->prepareException($exception);
+                if ($exception instanceof HttpResponseException) {
+                    return $exception->getResponse();
+                } elseif ($exception instanceof AuthenticationException) {
+                    return $this->unauthenticated($request, $exception);
+                } elseif ($exception instanceof ValidationException) {
+                    return $this->convertValidationExceptionToResponse($exception, $request);
+                }
+                return $this->prepareJsonResponse($request, $exception);
             } else {
                 $this->code = 500;
                 $this->msg = '服务器内部错误，不想告诉你';
