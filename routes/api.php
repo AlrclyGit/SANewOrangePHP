@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('banner/{id}', 'BannerController@getBanner');
 
 Route::get('theme', 'ThemeController@getSimpleList');
+Route::get('theme/{id}', 'ThemeController@getComplexOne');

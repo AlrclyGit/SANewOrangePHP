@@ -10,8 +10,10 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Exceptions\ThemeExceptions;
 use App\Http\Requests\IDCollection;
+use App\Http\Requests\IDMustBePositiveInt;
 use App\Models\Theme;
 
 class ThemeController extends Controller
@@ -35,4 +37,17 @@ class ThemeController extends Controller
         }
         return $result;
     }
+
+    /*
+     * 获取某一专题的商品信息
+     * @url /theme:id
+     */
+    public function getComplexOne(IDMustBePositiveInt $request)
+    {
+        //
+        $validated = $request->validated();
+        //
+        return Theme::getThemeWithProducts($validated['id']);
+    }
+
 }
