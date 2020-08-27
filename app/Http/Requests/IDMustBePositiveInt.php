@@ -11,10 +11,12 @@ namespace App\Http\Requests;
 
 
 use App\Rules\IsPositiveInteger;
-use Illuminate\Foundation\Http\FormRequest;
 
-class IDMustBePositiveInt extends FormRequest
+class IDMustBePositiveInt extends BaseRequests
 {
+
+    // 路由参数
+    protected $routeData = ['id'];
 
     /**
      * 权限判断
@@ -30,7 +32,17 @@ class IDMustBePositiveInt extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required',new IsPositiveInteger]
+            'id' => ['required', new IsPositiveInteger]
+        ];
+    }
+
+    /**
+     * 自定义字段名
+     */
+    public function attributes()
+    {
+        return [
+            'id' => 'ID'
         ];
     }
 
@@ -39,7 +51,7 @@ class IDMustBePositiveInt extends FormRequest
      */
     public function messages()
     {
-        return[
+        return [
             'id.required' => 'ID不能为空'
         ];
     }

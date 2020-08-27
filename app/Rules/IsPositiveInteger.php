@@ -16,14 +16,6 @@ class IsPositiveInteger implements Rule
 {
 
     /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * 验证通过条件定义
      */
     public function passes($attribute, $value)
@@ -33,16 +25,6 @@ class IsPositiveInteger implements Rule
         } else {
             return false;
         }
-    }
-
-    /**
-     * 自定义字段名
-     */
-    public function attributes()
-    {
-        return [
-            'id' => 'ID'
-        ];
     }
 
     /**
