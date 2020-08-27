@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\BannerMissException;
 use App\Http\Requests\IDMustBePositiveInt;
 use App\Models\Banner;
 
@@ -23,12 +24,15 @@ class BannerController extends Controller
      */
     public function getBanner(IDMustBePositiveInt $request)
     {
-        $banner =  Banner::getBannerByID($request->id);
-        if($banner){
-            return $banner;
-        }else{
-            return '抛错类';
+        //
+        $validated = $request->validated();
+        // 通过ID获取Banner
+        $banner =  Banner::getBannerByID($validated['id']);
+        //
+        if($banner->isEmpty()){
+            throw new BannerMissException();
         }
+        return $banner;
     }
 
 }
