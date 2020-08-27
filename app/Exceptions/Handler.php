@@ -3,10 +3,16 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    private $code;
+    private $msg;
+    private $errorCode;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -29,7 +35,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
+     * @param \Throwable $exception
      * @return void
      *
      * @throws \Exception
@@ -42,14 +48,45 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof BaseExceptions) {
+            $this->code = $exception->code;
+            $this->msg = $exception->msg;
+            $this->errorCode = $exception->errorCode;
+        } elseif ($exception instanceof NotFoundHttpException) {
+            $this->code = 404;
+            $this->msg = '资源查询不到';
+            $this->errorCode = 404;
+        } else {
+            if (config('app.debug')) {
+                return parent::render($request, $exception);
+            } else {
+                $this->code = 500;
+                $this->msg = '服务器内部错误，不想告诉你';
+                $this->errorCode = 999;
+//                $this->recordErrorLog($exception);
+            }
+        }
+        $result = [
+            'msg' => $this->msg,
+            'error_code' => $this->errorCode,
+            'request_url' => $request->fullUrl()
+        ];
+        return response()->json($result, $this->code);
+    }
+
+    /*
+     * 记录错误日志
+     */
+    private function recordErrorLog(Throwable $exception)
+    {
+
     }
 }
