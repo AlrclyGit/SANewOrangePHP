@@ -22,3 +22,6 @@ Route::get('product/recent','ProductController@getRecent');
 Route::get('product/by_category','ProductController@getAllInCategory');
 Route::get('product/{id}','ProductController@getOne');
 
+Route::get('category/all', 'CategoryController@getAllCategories');
+
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');
