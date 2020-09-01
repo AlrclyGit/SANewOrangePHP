@@ -14,4 +14,49 @@ class Product extends BaseModel
     {
         return $this->prefixImgUrl($url, $this->from);
     }
+
+    /*
+     *
+     */
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id')
+            ->orderBy('order', 'asc');
+    }
+
+    /*
+     *
+     */
+    public function properties()
+    {
+        return $this->hasMany(ProductProperty::class, 'product_id', 'id');
+    }
+
+
+    /*
+     *
+     */
+    public static function getMostRecent($count)
+    {
+        return self::orderBy('created_at', 'desc')
+            ->limit($count)
+            ->get();
+    }
+
+    /*
+     *
+     */
+    public static function getProductsByCategoryID($categoryID)
+    {
+        return self::where('category_id', $categoryID)
+            ->get();
+    }
+
+    /*
+ *
+ */
+    public static function getProductDetail($id)
+    {
+        return self::with(['images.img','properties'])->find($id);
+    }
 }

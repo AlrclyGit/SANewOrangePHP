@@ -1,9 +1,9 @@
 <?php
 /**
- * Name: ID是否为正整数
+ * Name:
  * User: 萧俊介
- * Date: 2020/8/25
- * Time: 11:28 上午
+ * Date: 2020/8/31
+ * Time: 2:59 下午
  * Created by SANewOrangePHP制作委员会.
  */
 
@@ -12,10 +12,8 @@ namespace App\Http\Requests;
 
 use App\Rules\IsPositiveInteger;
 
-class IDMustBePositiveInt extends BaseRequests
+class Count extends BaseRequests
 {
-
-    protected $routeData = ['id'];
 
     /**
      * 权限判断
@@ -31,17 +29,7 @@ class IDMustBePositiveInt extends BaseRequests
     public function rules()
     {
         return [
-            'id' => ['required', new IsPositiveInteger]
-        ];
-    }
-
-    /**
-     * 自定义字段名
-     */
-    public function attributes()
-    {
-        return [
-            'id' => 'ID'
+            'clout' => [new IsPositiveInteger(),'between:1,15']
         ];
     }
 
@@ -51,8 +39,7 @@ class IDMustBePositiveInt extends BaseRequests
     public function messages()
     {
         return [
-            'id.required' => 'ID不能为空'
+            'count.between' => 'count不能大于15'
         ];
     }
-
 }

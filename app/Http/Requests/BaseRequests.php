@@ -36,7 +36,10 @@ class BaseRequests extends FormRequest
     {
         $allData = $this->all();
         foreach ($this->routeData as $value) {
-            $allData[$value] = $this->route($value);
+            $v = $this->route($value);
+            if($v !== null){
+                $allData[$value] = $v;
+            }
         }
         return $allData;
     }

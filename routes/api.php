@@ -17,3 +17,8 @@ Route::get('banner/{id}', 'BannerController@getBanner');
 
 Route::get('theme', 'ThemeController@getSimpleList');
 Route::get('theme/{id}', 'ThemeController@getComplexOne');
+
+Route::get('product/recent','ProductController@getRecent');
+Route::get('product/by_category','ProductController@getAllInCategory');
+Route::get('product/{id}','ProductController@getOne');
+
