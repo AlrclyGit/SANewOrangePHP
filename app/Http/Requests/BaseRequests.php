@@ -10,7 +10,7 @@
 namespace App\Http\Requests;
 
 
-use App\Exceptions\ParameterException;
+use App\Exceptions\BaseExceptions;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,9 @@ class BaseRequests extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        throw new ParameterException([
+        throw new BaseExceptions([
+            'code' => 400,
+            'error_code' => 4000,
             'msg' => $validator->errors()->first()
         ]);
     }

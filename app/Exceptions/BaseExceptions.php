@@ -13,14 +13,19 @@ use RuntimeException;
 class BaseExceptions extends RuntimeException
 {
 
-    // HTTP 状态码
-    public $code = 233;
+    // 自定义的错误码
+    public $errorCode = 2233;
     // 错误具体信息
     public $msg = '默认消息';
-    // 自定义的错误码
-    public $errorCode = 23333;
+    // 附带的内容
+    public $data = [];
+    // HTTP 状态码
+    public $code = 500;
 
-    public function __construct($params = [])
+    /*
+     *
+     */
+    public function __construct($params)
     {
         parent::__construct();
         if (!is_array($params)) {
@@ -29,11 +34,14 @@ class BaseExceptions extends RuntimeException
             if (array_key_exists('code', $params)) {
                 $this->code = $params['code'];
             }
+            if (array_key_exists('errorCode', $params)) {
+                $this->errorCode = $params['errorCode'];
+            }
             if (array_key_exists('msg', $params)) {
                 $this->msg = $params['msg'];
             }
-            if (array_key_exists('errorCode', $params)) {
-                $this->errorCode = $params['errorCode'];
+            if (array_key_exists('data', $params)) {
+                $this->data = $params['data'];
             }
         }
     }

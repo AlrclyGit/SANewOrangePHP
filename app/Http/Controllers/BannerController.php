@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\BannerMissException;
+use App\Exceptions\BaseExceptions;
 use App\Http\Requests\IDMustBePositiveInt;
 use App\Models\Banner;
 
@@ -27,10 +27,14 @@ class BannerController extends Controller
         //
         $validated = $request->validated();
         // 通过ID获取Banner
-        $banner =  Banner::getBannerByID($validated['id']);
+        $banner = Banner::getBannerByID($validated['id']);
         //
-        if($banner->isEmpty()){
-            throw new BannerMissException();
+        if ($banner->isEmpty()) {
+            throw new BaseExceptions([
+                'code' => 404,
+                'errorCode' => 4000,
+                'msg' => '请求的Banner不存在',
+            ]);
         }
         return $banner;
     }

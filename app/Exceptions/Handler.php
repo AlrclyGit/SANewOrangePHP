@@ -62,8 +62,9 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof BaseExceptions) {
             $this->code = $exception->code;
-            $this->msg = $exception->msg;
             $this->errorCode = $exception->errorCode;
+            $this->msg = $exception->msg;
+            $this->data = $exception->data;
         } else {
             if (config('app.debug')) {
                 if (method_exists($exception, 'render') && $response = $exception->render($request)) {
@@ -88,8 +89,9 @@ class Handler extends ExceptionHandler
             }
         }
         $result = [
-            'msg' => $this->msg,
             'error_code' => $this->errorCode,
+            'msg' => $this->msg,
+            'data' => $this->data,
             'request_url' => $request->fullUrl()
         ];
         return response()->json($result, $this->code);
