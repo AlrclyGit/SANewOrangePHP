@@ -63,7 +63,19 @@ class UserTokenService extends TokenService
     private function grantToken($wxResult)
     {
         $user = User::firstOrCreate(['openid' => $wxResult['openid']]);
-        return $this->saveToCache($this->prepareCachedValue($wxResult, $user->id));
+        $cachedValue = $this->prepareCachedValue($user->id);
+        return $this->saveToCache($cachedValue);
+    }
+
+    /*
+     *
+     */
+    private function prepareCachedValue($uid)
+    {
+        $cacheValue['uid'] = $uid;
+        $cacheValue['scope'] = ScopeEnum::User;
+        $cacheValue['expire'] = time();
+        return $cacheValue;
     }
 
     /*
@@ -71,26 +83,10 @@ class UserTokenService extends TokenService
      */
     private function saveToCache($cacheValue)
     {
-        $key = self::generateToken();
-        $value = json_encode($cacheValue);
-        $expire_in = config('setting.token_expire_in');
-        $request = cache($key, $value, $expire_in);
-        if (!$request) {
-            throw new WeChatException([
-                'msg' => '服务器缓存异常'
-            ]);
-        }
-        return $key;
-    }
-
-    /*
-     *
-     */
-    private function prepareCachedValue($wxResult, $uid)
-    {
-        $cacheValue = $wxResult;
-        $cacheValue['uid'] = $uid;
-        $cacheValue['scope'] = ScopeEnum::User;
-        return $cacheValue;
+        //
+        $front = 'md5(md5())';
+        $middle = json_encode($cacheValue);
+        $last = md5(md5($middle));
+        return implode('.',[$front,$middle,$last]);
     }
 }
