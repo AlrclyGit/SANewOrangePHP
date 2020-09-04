@@ -26,3 +26,4 @@ Route::get('category/all', 'CategoryController@getAllCategories');
 
 Route::post('token/user', 'TokenController@getToken');
 
+Route::post('address', 'AddressController@createOrUpdateAddress');
