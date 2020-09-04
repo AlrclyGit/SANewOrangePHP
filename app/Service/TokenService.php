@@ -23,14 +23,14 @@ class TokenService
     {
         //
         $value = json_encode($cacheValue);
-        $signature = md5(md5($value));
+        $signature = self::getSignature($value);
         return implode('.', [$value, $signature]);
     }
 
     /*
      * 获取用户某个Value
      */
-    public static function getCurrentToKenVar($key)
+    static public function getCurrentToKenVar($key)
     {
         //
         $token = Request::header('token');
@@ -42,7 +42,7 @@ class TokenService
         $value = $tokenArray[0];
         $signature = $tokenArray[1];
         //
-        $localSignature = md5(md5($value));
+        $localSignature = self::getSignature($value);
         if ($localSignature !== $signature) {
             throw new TokenException();
         }
@@ -58,25 +58,26 @@ class TokenService
     }
 
     /*
+     * 生成签名的方法
+     */
+    static private function getSignature($value)
+    {
+        return md5(md5($value) . config('setting.token_salt'));
+    }
+
+    /*
      * 获取用户Uid
      */
-    public static function getCurrentUid()
+    static public function getCurrentUid()
     {
         $uid = self::getCurrentToKenVar('uid');
         return $uid;
     }
 
     /*
-     * 生成签名的方法
-     */
-    protected function getSignature($value){
-        return md5(md5($value).'');
-    }
-
-    /*
      * 检测传入的UID是否为当前用户
      */
-    public static function isValidOperate($checkedUID)
+    static public function isValidOperate($checkedUID)
     {
         if (!$checkedUID) {
             throw new TokenException('检测UID时必须传入一个被检测的UID');
