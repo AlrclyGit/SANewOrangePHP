@@ -25,7 +25,7 @@ class BaseExceptions extends RuntimeException
     /*
      *
      */
-    public function __construct($params)
+    public function __construct($params = [])
     {
         parent::__construct();
         if (!is_array($params)) {

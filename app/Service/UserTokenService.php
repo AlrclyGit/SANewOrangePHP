@@ -27,10 +27,11 @@ class UserTokenService extends TokenService
      */
     function __construct($code)
     {
+        $wxUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_cod";
         $this->code = $code;
         $this->wxAppID = config('wx.app_id');
         $this->weAppSecret = config('wx.app_secret');
-        $this->wxLoginUrl = sprintf(config('wx.login_url'), $this->wxAppID, $this->weAppSecret, $this->code);
+        $this->wxLoginUrl = sprintf($wxUrl, $this->wxAppID, $this->weAppSecret, $this->code);
     }
 
     /*
@@ -78,15 +79,5 @@ class UserTokenService extends TokenService
         return $cacheValue;
     }
 
-    /*
-     *
-     */
-    private function saveToCache($cacheValue)
-    {
-        //
-        $front = 'md5(md5())';
-        $middle = json_encode($cacheValue);
-        $last = md5(md5($middle));
-        return implode('.',[$front,$middle,$last]);
-    }
+
 }
