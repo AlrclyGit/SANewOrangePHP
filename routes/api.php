@@ -27,9 +27,11 @@ Route::get('category/all', 'CategoryController@getAllCategories');
 Route::post('token/user', 'TokenController@getToken');
 
 
+
 // 用户级别权限
 Route::middleware('userToken')->group(function () {
     Route::post('order', 'OrderController@placeOrder');
+    Route::post('pay/pre_order', 'PayController@getPreOrder');
 });
 
 // 用户和管理员级别权限
@@ -38,3 +40,5 @@ Route::middleware('userAndAdminToken')->group(function () {
     Route::post('order/{id}', 'OrderController@getDetail');
     Route::post('order/by_user', 'OrderController@getSummaryByUser');
 });
+
+

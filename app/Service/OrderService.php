@@ -175,6 +175,18 @@ class OrderService
     }
 
     /*
+     * 通过用户提交的数据，获取数据库数据
+     */
+    public function checkOrderStock($orderID)
+    {
+        $oProducts = OrderProduct::where('order_id', $orderID)->get();
+        $this->oProducts = $oProducts;
+        $this->products = $this->getProductsByOrder($oProducts);
+        $status = $this->getOrderStatus();
+        return $status;
+    }
+
+    /*
      * 传过来的数据与数据库里的数据对比
      */
     private

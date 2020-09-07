@@ -8,7 +8,7 @@
  */
 namespace App\Models;
 
-use App\Enums\ImagePath;
+use App\Enums\ImagePathEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
@@ -19,10 +19,10 @@ class BaseModel extends Model
      */
     protected function prefixImgUrl($url, $from)
     {
-        if ($from == ImagePath::localHost) {
-            $url = ImagePath::localHostPath . $url;
-        } elseif ($from == ImagePath::oss) {
-            $url = ImagePath::ossPath . $url;
+        if ($from == ImagePathEnum::localHost) {
+            $url = ImagePathEnum::localHostPath . $url;
+        } elseif ($from == ImagePathEnum::oss) {
+            $url = ImagePathEnum::ossPath . $url;
         }
         return $url;
     }

@@ -10,7 +10,7 @@
 namespace App\Enums;
 
 
-class ImagePath
+class ImagePathEnum
 {
 
     // 图片地址类型

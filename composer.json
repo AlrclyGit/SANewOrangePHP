@@ -40,11 +40,13 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/Packages/WxPay"
         ],
         "files": [
             "app/helpers.php"
         ]
+
     },
     "autoload-dev": {
         "psr-4": {

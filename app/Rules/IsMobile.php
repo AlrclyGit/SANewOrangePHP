@@ -12,7 +12,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class isMobile implements Rule
+class IsMobile implements Rule
 {
     /**
      * 验证通过条件定义

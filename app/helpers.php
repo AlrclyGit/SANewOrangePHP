@@ -7,7 +7,7 @@
  * Created by SANewOrangePHP制作委员会.
  */
 
-/*
+/**
  *
  */
 function curlGet($url, &$httpCode = 0)
@@ -38,7 +38,7 @@ function getRandChar($length = 16)
     return $str;
 }
 
-/*
+/**
  *
  */
 function saReturn($data = [],$code = 0, $msg ='YesOK')
