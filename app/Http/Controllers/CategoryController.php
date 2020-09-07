@@ -10,7 +10,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Exceptions\CategoryException;
+
+use App\Exceptions\BaseExceptions;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -22,7 +23,7 @@ class CategoryController extends Controller
     {
         $categories = Category::with('img')->get();
         if($categories->isEmpty()){
-            throw new CategoryException();
+            throw new BaseExceptions();
         }
         return $categories;
     }

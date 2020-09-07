@@ -28,7 +28,7 @@ class AddressController extends Controller
         $uid = TokenService::getCurrentUid();
         // 从 User 表获取用户
         $user = User::find($uid);
-        // 获取关联地址是否存在
+        // 获取关联地址自动入库
         $user->address()->updateOrCreate([],$validated);
         // 返回成功消息
         return saReturn();

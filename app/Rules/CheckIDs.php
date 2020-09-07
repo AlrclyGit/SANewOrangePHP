@@ -12,7 +12,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class checkIDs implements Rule
+class CheckIDs implements Rule
 {
     /**
      * 验证通过条件定义

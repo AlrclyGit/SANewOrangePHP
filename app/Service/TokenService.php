@@ -10,6 +10,8 @@
 namespace App\Service;
 
 
+use App\Enums\ScopeEnum;
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\TokenException;
 use Illuminate\Support\Facades\Request;
 
@@ -87,6 +89,40 @@ class TokenService
             return true;
         }
         return false;
+    }
+
+    /*
+     * 权限验证方法（用户）
+     */
+    public static function needExclusiveScope()
+    {
+        $scope = self::getCurrentToKenVar('scope');
+        if ($scope) {
+            if ($scope == ScopeEnum::User) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
+    }
+
+    /*
+     * 权限验证方法（管理员和用户）
+     */
+    public static function needPrimaryScope()
+    {
+        $scope = self::getCurrentToKenVar('scope');
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
     }
 
 }

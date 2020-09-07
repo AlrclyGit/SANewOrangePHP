@@ -1,6 +1,6 @@
 <?php
 /**
- * Name:
+ * Name: 验证Code
  * User: 萧俊介
  * Date: 2020/9/1
  * Time: 11:12 上午

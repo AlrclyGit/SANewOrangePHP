@@ -1,6 +1,6 @@
 <?php
 /**
- * Name:
+ * Name: 验证地址填写
  * User: 萧俊介
  * Date: 2020/9/4
  * Time: 10:19 上午
@@ -10,7 +10,7 @@
 namespace App\Http\Requests;
 
 
-use App\Rules\isMobile;
+use App\Rules\IsMobile;
 
 class AddressNew extends BaseRequests
 {
@@ -29,7 +29,7 @@ class AddressNew extends BaseRequests
     {
         return [
             'name' => ['required'],
-            'mobile' => ['required',new isMobile()],
+            'mobile' => ['required',new IsMobile()],
             'province' => ['required'],
             'city' => ['required'],
             'country' => ['required'],

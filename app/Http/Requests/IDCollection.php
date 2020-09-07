@@ -10,7 +10,7 @@
 namespace App\Http\Requests;
 
 
-use App\Rules\checkIDs;
+use App\Rules\CheckIDs;
 
 class IDCollection extends BaseRequests
 {
@@ -28,7 +28,7 @@ class IDCollection extends BaseRequests
     public function rules()
     {
         return [
-            'ids' => ['required', new checkIDs()]
+            'ids' => ['required', new CheckIDs()]
         ];
     }
 

@@ -25,8 +25,8 @@ class BaseRequests extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new BaseExceptions([
-            'code' => 400,
-            'errorCode' => 4000,
+            'code' => 422,
+            'errorCode' => 422,
             'msg' => $validator->errors()->first()
         ]);
     }
