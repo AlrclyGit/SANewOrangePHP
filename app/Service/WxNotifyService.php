@@ -15,7 +15,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
-class WxNotifyService
+class WxNotifyService extends \WxPayNotify
 {
 
     /*
@@ -46,7 +46,7 @@ class WxNotifyService
                 }
                 DB::commit();
                 return true;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 DB::rollBack();
 //                Log::error($ex);
                 return false;

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Name:
+ * Name: 专题控制器
  * User: 萧俊介
  * Date: 2020/8/27
  * Time: 1:03 上午
@@ -8,8 +9,6 @@
  */
 
 namespace App\Http\Controllers;
-
-
 
 use App\Exceptions\ThemeExceptions;
 use App\Http\Requests\IDCollection;
@@ -26,12 +25,13 @@ class ThemeController extends Controller
     */
     public function getSimpleList(IDCollection $request)
     {
-        //
+        // 获取过滤过的参数
         $validated = $request->validated();
+        // 将字符串参数转成数组
         $ids = explode(',', $validated['ids']);
-        //
+        // 通过ID组获取对应的专题
         $result = Theme::getThemeByIds($ids);
-        //
+        // 错误处理与返回
         if ($result->isEmpty()) {
             throw new ThemeExceptions();
         }
@@ -44,10 +44,15 @@ class ThemeController extends Controller
      */
     public function getComplexOne(IDMustBePositiveInt $request)
     {
-        //
+        // 获取过滤过的参数
         $validated = $request->validated();
-        //
-        return Theme::getThemeWithProducts($validated['id']);
+        // 通过ID获取对应专题详细产品
+        $result = Theme::getThemeWithProducts($validated['id']);
+        // 错误处理与返回
+        if ($result->isEmpty()) {
+            throw new ThemeExceptions();
+        }
+        return $result;
     }
 
 }

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Name: 分类模型
+ * User: 萧俊介
+ * Date: 2020/9/07
+ * Time: 1:06 下午
+ * Created by SANewOrangePHP制作委员会.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +43,7 @@ class Theme extends Model
     }
 
     /*
-     *
+     * 通过ID组获取对应的专题
      */
     static function getThemeByIds($ids)
     {
@@ -45,7 +53,7 @@ class Theme extends Model
     }
 
     /*
-     *
+     * 通过ID获取对应专题详细产品
      */
     static public function getThemeWithProducts($id)
     {

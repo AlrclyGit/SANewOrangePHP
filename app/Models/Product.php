@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Name: 商品模型
+ * User: 萧俊介
+ * Date: 2020/9/07
+ * Time: 1:06 下午
+ * Created by SANewOrangePHP制作委员会.
+ */
+
 namespace App\Models;
 
 class Product extends BaseModel
@@ -16,7 +24,7 @@ class Product extends BaseModel
     }
 
     /*
-     *
+     * 关联图片模型
      */
     public function images()
     {
@@ -25,7 +33,7 @@ class Product extends BaseModel
     }
 
     /*
-     *
+     * 关联商品属性模型
      */
     public function properties()
     {
@@ -34,7 +42,7 @@ class Product extends BaseModel
 
 
     /*
-     *
+     * 获取指定条数的最新商品
      */
     public static function getMostRecent($count)
     {
@@ -44,7 +52,7 @@ class Product extends BaseModel
     }
 
     /*
-     *
+     * 通过 分类ID 获取其下的所有商品
      */
     public static function getProductsByCategoryID($categoryID)
     {
@@ -53,8 +61,8 @@ class Product extends BaseModel
     }
 
     /*
- *
- */
+     * 获取某一个商品的详情
+     */
     public static function getProductDetail($id)
     {
         return self::with(['images.img','properties'])->find($id);

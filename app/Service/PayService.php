@@ -149,16 +149,16 @@ class PayService
         // 订单号和当前用户不匹配
         if (!TokenService::isValidOperate($order->user_id)) {
             throw new TokenException([
-                'msg' => '订单与用户不匹配',
-                'errorCode' => 10003
+                'msg' => '订单用户与订单用户不匹配',
+                'errorCode' => 80002
             ]);
         }
         // 订单已支付
         if ($order->status != OrderStatusEnum::UNPAID) {
             throw new OrderException([
+                'code' => 400,
                 'msg' => '订单已支付过啦',
                 'errorCode' => 80003,
-                'code' => 400
             ]);
         }
         $this->orderNO = $order->order_no;

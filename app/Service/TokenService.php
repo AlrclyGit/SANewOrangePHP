@@ -19,52 +19,74 @@ class TokenService
 {
 
     /*
-     *
+     * 生成签名的方法
      */
-    protected function saveToCache($cacheValue)
+    static private function getSignature($header, $value)
     {
-        //
-        $value = json_encode($cacheValue);
-        $signature = self::getSignature($value);
-        return implode('.', [$value, $signature]);
+        return md5(md5($header . $value) . config('setting.token_salt'));
     }
+
+    /*
+     * 生成一个 JWT 规范的 Token
+     */
+    protected function produceToken($cacheValue)
+    {
+        // Header数据
+        $header = [
+            'alg' => 'md5',
+            'typ' => 'JWT'
+        ];
+        // Header
+        $header = base64_encode(json_encode($header));
+        // Payload
+        $payload = base64_encode(json_encode($cacheValue));
+        // Signature
+        $signature = self::getSignature($header, $payload);
+        // 拼合 Token 数据
+        return implode('.', [$header, $payload, $signature]);
+    }
+
 
     /*
      * 获取用户某个Value
      */
     static public function getCurrentToKenVar($key)
     {
-        //
+        // 获取 Token 原始数据
         $token = Request::header('token');
         if (empty($token)) {
-            throw new TokenException();
+            throw new TokenException([
+                'msg' => '检测到token为空'
+            ]);
         }
-        //
+        // Token 原始数据转为数组
         $tokenArray = explode('.', $token);
-        $value = $tokenArray[0];
-        $signature = $tokenArray[1];
-        //
-        $localSignature = self::getSignature($value);
+        $header = $tokenArray[0];
+        $payload = $tokenArray[1];
+        $signature = $tokenArray[2];
+        // 验证数据的合法性
+        $localSignature = self::getSignature($header, $payload);
         if ($localSignature !== $signature) {
-            throw new TokenException();
+            throw new TokenException([
+                'msg' => '无效Token'
+            ]);
         }
-        if (!is_array($value)) {
-            $value = json_decode($value, true);
+        // payload 部分转为数组
+        $value = json_decode(base64_decode($payload), true);
+        // 效验 Token 是否已经过期
+        if ($value['expire'] < time()) {
+            throw new TokenException([
+                'msg' => 'Token已过期'
+            ]);
         }
+        // 查询数组里时候有该值
         if (!array_key_exists($key, $value)) {
             throw new TokenException([
                 'msg' => '尝试获取的Token变量不存在'
             ]);
         }
+        // 返回
         return $value[$key];
-    }
-
-    /*
-     * 生成签名的方法
-     */
-    static private function getSignature($value)
-    {
-        return md5(md5($value) . config('setting.token_salt'));
     }
 
     /*

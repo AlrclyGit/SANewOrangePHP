@@ -24,15 +24,15 @@ class BannerController extends Controller
      */
     public function getBanner(IDMustBePositiveInt $request)
     {
-        //
+        // 获取过滤过的参数
         $validated = $request->validated();
         // 通过ID获取Banner
         $banner = Banner::getBannerByID($validated['id']);
-        //
+        // 错误处理与返回
         if ($banner->isEmpty()) {
             throw new BaseExceptions([
                 'code' => 404,
-                'errorCode' => 4000,
+                'errorCode' => 41001,
                 'msg' => '请求的Banner不存在',
             ]);
         }

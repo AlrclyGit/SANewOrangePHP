@@ -9,8 +9,6 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Exceptions\BaseExceptions;
 use App\Models\Category;
 
@@ -21,9 +19,15 @@ class CategoryController extends Controller
      */
     public function getAllCategories()
     {
+        // 获取商品分类
         $categories = Category::with('img')->get();
+        // 错误处理与返回
         if($categories->isEmpty()){
-            throw new BaseExceptions();
+            throw new BaseExceptions([
+                'code' => 404,
+                'errorCode' => 44001,
+                'msg' => '请求的分类不存在',
+            ]);
         }
         return $categories;
     }
