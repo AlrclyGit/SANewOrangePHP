@@ -39,7 +39,7 @@ function getRandChar($length = 16)
 }
 
 /**
- *
+ * 正常的返回值
  */
 function saReturn($data = [],$code = 0, $msg ='YesOK')
 {

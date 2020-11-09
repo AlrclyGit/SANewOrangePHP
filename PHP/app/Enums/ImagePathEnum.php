@@ -1,6 +1,6 @@
 <?php
 /**
- * Name:
+ * Name: 图片地址设置
  * User: 萧俊介
  * Date: 2020/8/25
  * Time: 8:29 下午
@@ -18,7 +18,7 @@ class ImagePathEnum
     const oss = 2;
 
     // 图片地址URL
-    const localHostPath = 'https://al.alrcly.com/image/';
-    const ossPath = '';
+    const localHostPath = 'https://al.alrcly.com/';
+    const ossPath = 'https://oss.alrcly.com/';
 
 }

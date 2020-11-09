@@ -29,7 +29,7 @@ class BannerController extends Controller
         // 通过ID获取Banner
         $banner = Banner::getBannerByID($validated['id']);
         // 错误处理与返回
-        if ($banner->isEmpty()) {
+        if (!$banner) {
             throw new BaseExceptions([
                 'code' => 404,
                 'errorCode' => 41001,

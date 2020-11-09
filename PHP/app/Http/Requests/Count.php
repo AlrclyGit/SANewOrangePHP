@@ -29,7 +29,7 @@ class Count extends BaseRequests
     public function rules()
     {
         return [
-            'clout' => [new IsPositiveInteger(),'between:1,15']
+            'count' => [new IsPositiveInteger(),'between:1,15']
         ];
     }
 

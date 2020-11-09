@@ -59,7 +59,7 @@ class Theme extends Model
     {
         return self::with(['products', 'headImg', 'topicImg'])
             ->where('id', '=', $id)
-            ->get();
+            ->first();
     }
 
 

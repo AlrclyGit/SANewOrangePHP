@@ -49,7 +49,7 @@ class ThemeController extends Controller
         // 通过ID获取对应专题详细产品
         $result = Theme::getThemeWithProducts($validated['id']);
         // 错误处理与返回
-        if ($result->isEmpty()) {
+        if (!$result) {
             throw new ThemeExceptions();
         }
         return $result;

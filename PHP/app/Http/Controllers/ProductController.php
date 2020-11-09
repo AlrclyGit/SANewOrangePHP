@@ -25,7 +25,9 @@ class ProductController extends Controller
         // 获取过滤过的参数
         $validated = $request->validated();
         // 设置默认的 count 值
-        $validated['count'] = $validated['count'] ? $validated['count'] : 15;
+        if(empty($validated['count'])){
+            $validated['count'] = 15;
+        }
         // 获取指定条数的最新商品
         $products = Product::getMostRecent($validated['count']);
         // 错误处理与隐藏字段并返回

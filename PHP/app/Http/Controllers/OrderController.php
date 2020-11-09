@@ -9,14 +9,13 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Exceptions\BaseExceptions;
 use App\Exceptions\OrderException;
 use App\Http\Requests\IDMustBePositiveInt;
 use App\Http\Requests\OrderPlace;
 use App\Models\Order;
 use App\Service\OrderService;
 use App\Service\TokenService;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -51,6 +50,23 @@ class OrderController extends Controller
         $orderS = new OrderService();
         // 调用生成订单的方法，并传入 Uid 和 商品信息
         $status = $orderS->place($uid, $validated['products']);
+        // 返回
+        return saReturn($status);
+    }
+
+    /*
+     * 获取某个用户的订单
+     */
+    public function getSummaryByUser(Request $request)
+    {
+        // 获取过滤过的参数
+        $validated = $request->all();
+        // 获取用户Uid
+        $uid = TokenService::getCurrentUid();
+        // 实例化一个订单类
+        $orderM = new Order();
+        // 调用生成订单的方法，并传入 Uid 和 商品信息
+        $status = $orderM->where('user_id', $uid)->orderBy('created_at', 'DESC')->paginate($validated['listRows']);
         // 返回
         return saReturn($status);
     }

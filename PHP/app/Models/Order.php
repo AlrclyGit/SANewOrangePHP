@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     // 隐藏字段
-    protected $hidden = ['created_at','updated_at','deleted_at'];
+    protected $hidden = ['updated_at','deleted_at'];
 
     /*
      *

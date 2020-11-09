@@ -23,6 +23,6 @@ class Banner extends BaseModel
     {
         return self::with('items.img')
             ->where('id', '=', $id)
-            ->get();
+            ->first();
     }
 }

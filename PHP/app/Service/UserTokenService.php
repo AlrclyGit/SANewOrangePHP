@@ -70,10 +70,20 @@ class UserTokenService extends TokenService
      */
     private function grantToken($wxResult)
     {
-        // 查询用户是否存在，不存在进行添加
-        $user = User::firstOrCreate(['openid' => $wxResult['openid']]);
+        // 查询用户是否存在
+        $user = User::where(['openid' => $wxResult['openid']])->first();
+        // 存在则更新session_key,否则添加用户数据
+        if($user){
+            $user->session_key = $wxResult['session_key'];
+            $user->save();
+        }else{
+            $user = new User;
+            $user->openid = $wxResult['openid'];
+            $user->session_key = $wxResult['session_key'];
+            $user->save();
+        }
         // 生成 Token 的 Value
-        $cachedValue = $this->prepareTokenValue($user->id);
+        $cachedValue = $this->prepareTokenValue($user->id, $wxResult['expires_in']);
         // 生成 Token 的 签名并返回
         return $this->produceToken($cachedValue);
     }
@@ -81,11 +91,11 @@ class UserTokenService extends TokenService
     /*
      * 生成 Token 的 参数部分
      */
-    private function prepareTokenValue($uid)
+    private function prepareTokenValue($uid, $expires_in)
     {
         $cacheValue['uid'] = $uid;
         $cacheValue['scope'] = ScopeEnum::User;
-        $cacheValue['expire'] = time() + config('setting.token_expire');
+        $cacheValue['expire'] = time() + $expires_in;
         return $cacheValue;
     }
 

@@ -119,7 +119,11 @@ class TokenService
     public static function needExclusiveScope()
     {
         $scope = self::getCurrentToKenVar('scope');
+        $expire = self::getCurrentToKenVar('expire');
         if ($scope) {
+            if($expire < time()){
+                throw new TokenException();
+            }
             if ($scope == ScopeEnum::User) {
                 return true;
             } else {
@@ -136,7 +140,11 @@ class TokenService
     public static function needPrimaryScope()
     {
         $scope = self::getCurrentToKenVar('scope');
+        $expire = self::getCurrentToKenVar('expire');
         if ($scope) {
+            if($expire < time()){
+                throw new TokenException();
+            }
             if ($scope >= ScopeEnum::User) {
                 return true;
             } else {

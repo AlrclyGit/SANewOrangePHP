@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-
     //
-    protected $fillable =['openid'];
+    protected $hidden = ['id','openid','session_key','created_at','updated_at','deleted_at'];
 
     /*
      * 关联用户的收货地址表

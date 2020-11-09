@@ -28,12 +28,12 @@ class AddressNew extends BaseRequests
     public function rules()
     {
         return [
-            'name' => ['required'],
-            'mobile' => ['required',new IsMobile()],
-            'province' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-            'detail' => ['required'],
+            'userName' => ['required'],
+            'telNumber' => ['required'],
+            'provinceName' => ['required'],
+            'cityName' => ['required'],
+            'countyName' => ['required'],
+            'detailInfo' => ['required'],
         ];
     }
 
@@ -43,12 +43,12 @@ class AddressNew extends BaseRequests
     public function messages()
     {
         return [
-            'name.required' => 'name参数为必选',
-            'mobile.required' => 'mobile参数为选',
-            'province.required' => 'province参数为必选',
-            'city.required' => 'city参数为必选',
-            'country.required' => 'country参数为必选',
-            'detail.required' => 'detail参数为必选',
+            'userName.required' => 'name参数为必选',
+            'telNumber.required' => 'mobile参数为选',
+            'provinceName.required' => 'province参数为必选',
+            'cityName.required' => 'city参数为必选',
+            'countyName.required' => 'country参数为必选',
+            'detailInfo.required' => 'detail参数为必选',
         ];
     }
 }
