@@ -9,6 +9,6 @@ class Config {
   
 }
 
-Config.restUrl = 'https://la.alrcly.com/api/';
+Config.restUrl = 'https://shop.caisurf.com/api/';
 
 export { Config };

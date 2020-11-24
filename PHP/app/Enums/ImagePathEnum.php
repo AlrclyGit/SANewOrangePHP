@@ -18,7 +18,7 @@ class ImagePathEnum
     const oss = 2;
 
     // 图片地址URL
-    const localHostPath = 'https://al.alrcly.com/';
-    const ossPath = 'https://oss.alrcly.com/';
+    const localHostPath = 'https://shop.caisurf.com/';
+    const ossPath = 'https://oss.caisurf.com/';
 
 }
