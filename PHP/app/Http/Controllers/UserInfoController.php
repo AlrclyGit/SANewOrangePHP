@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 class UserInfoController extends Controller
 {
     /*
-     * 获取用户地址
+     * 获取用户信息
      */
     public function getUserInfo()
     {
@@ -38,7 +38,7 @@ class UserInfoController extends Controller
     }
 
     /*
-     * 写入一个用户信息
+     * 写入用户信息
      */
     public function setUserInfo(Request $request)
     {
@@ -74,6 +74,5 @@ class UserInfoController extends Controller
                 'errorCode' => '30003'
             ]);
         }
-
     }
 }
